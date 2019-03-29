@@ -34,3 +34,7 @@ Special thanks go to [wtfil](https://github.com/wtfil) and [aLkRicha](https://gi
 ## Copyright
 
 Copyright © 2017 Todor Tsankov.
+
+## Execution
+* node server.js
+* npm start

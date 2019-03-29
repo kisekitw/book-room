@@ -67,7 +67,7 @@ export default class Look extends Component {
 
 
   fetchMeetingsList = () => {
-
+    console.log(this.props.match.params.id);
     const roomId = this.props.match.params.id;
 
     axios.get(`/api/meetings?roomId=${roomId}`)
@@ -78,7 +78,6 @@ export default class Look extends Component {
   fetchRoomInfo = () => {
 
     const roomId = this.props.match.params.id;
-
     if(roomId !== undefined){
       axios.get(`/api/meetings/roominfo?roomId=${roomId}`)
            .then(res => this.setState({ roomInfo: res.data[0] }));

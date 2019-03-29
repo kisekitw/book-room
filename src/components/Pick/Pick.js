@@ -6,7 +6,7 @@ export default () => (
     <Link id='look' to="/look">
       <span class='text'>
         <span class='heading'>LOOK</span>
-        <span>Upcoming Events</span>
+        <span>Upcoming Meetings</span>
         <i class='icon'></i>
       </span>
     </Link>

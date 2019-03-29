@@ -12,7 +12,7 @@ const isAuthed = require('./passport/isUserAuthed');
 const meetingRouter = express.Router();
 
 meetingRouter.get('/', isAuthed, (req, res) => {
-
+    console.log('aaaaaaaaaaaaaaaaaaaaa');
     const isRoomMode = req.query.roomId !== 'undefined';
     let query;
     if(isRoomMode){

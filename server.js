@@ -45,7 +45,7 @@ require('./server/passport/local')(passport);
 require('./server/authRouter')(app, passport);
 
 const roomRouter = require('./server/roomRouter');
-app.use('/api/rooms', roomRouter);
+app.use('/api/rooms', roomRouter);  
 
 const meetingRouter = require('./server/meetingRouter');
 app.use('/api/meetings', meetingRouter);

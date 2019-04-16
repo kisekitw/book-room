@@ -38,8 +38,13 @@ export default class BookForm extends Component {
   /* LIFECYCLE METHODS */
 
   componentWillMount = () => {
-    axios.get('/api/rooms')
-      .then(res => this.setState({ rooms: res.data }, () => {
+    // axios.get('/api/rooms')
+    //   .then(res => this.setState({ rooms: res.data }, () => {
+    //     this.initState = this.state;
+    //   }));
+    axios.get('http://10.192.253.57:3000/api/meetingroom/')
+      .then(res => this.setState({ rooms: res.data.meetingrooms }, () => {
+        console.log('-------BookForm state', this.state.rooms);
         this.initState = this.state;
       }));
   };
@@ -73,6 +78,7 @@ export default class BookForm extends Component {
   };
 
   onStartTChange = (id, time) => {
+    console.log('aaaaaaaaaaaaaaaaaaaa');
     const time_pos = INTERVALS.indexOf(time);
     const end_time = INTERVALS.filter(el => INTERVALS.indexOf(el) > time_pos);
 
@@ -85,7 +91,7 @@ export default class BookForm extends Component {
 
 
   mapTime2Obj = (timeArr) => {
-    return timeArr.map(el => ({ value: el }));
+    return timeArr.map(el => ({ name: el }));
   }
 
   close = () => {
@@ -105,7 +111,7 @@ export default class BookForm extends Component {
     //toISO ignores timezone
 
     const newMeeting = {
-      room: activeRoom.id,
+      room: activeRoom,
       title: title,
       startT: startTime,
       endT: endTime

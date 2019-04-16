@@ -67,8 +67,10 @@ export default class Look extends Component {
 
 
   fetchMeetingsList = () => {
-    console.log(this.props.match.params.id);
+    
     const roomId = this.props.match.params.id;
+
+    console.log('----------', roomId);
 
     axios.get(`/api/meetings?roomId=${roomId}`)
          .then(res => this.setState({ timeline: res.data }));
@@ -79,8 +81,13 @@ export default class Look extends Component {
 
     const roomId = this.props.match.params.id;
     if(roomId !== undefined){
-      axios.get(`/api/meetings/roominfo?roomId=${roomId}`)
-           .then(res => this.setState({ roomInfo: res.data[0] }));
+      // axios.get(`/api/meetings/roominfo?roomId=${roomId}`)
+      //      .then(res => this.setState({ roomInfo: res.data[0] }));
+
+      axios.get(`http://10.192.253.57:3000/api/meetingroom/${roomId}`)
+           .then((res) => {
+            this.setState({ roomInfo: res.data });
+           });
     } else {
       this.setState({ roomInfo: { photo: '', name: '' } });
     }

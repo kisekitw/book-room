@@ -22,10 +22,12 @@ export default class Book extends Component {
    }
 
   componentWillMount() {
-    axios.get('/api/rooms')
-      .then(res => this.setState({ rooms: res.data }));
+    // axios.get('/api/rooms')
+    //   .then(res => this.setState({ rooms: res.data }));
+    axios.get('http://10.192.253.57:3000/api/meetingroom/')
+      .then(res => this.setState({ rooms: res.data.meetingrooms }));
   }
-
+  
   toggleBookForm = (roomId, roomName) => {
     let room = {};
     room['id'] = roomId || '';
@@ -57,12 +59,12 @@ export default class Book extends Component {
 
             { this.state.rooms.map((el, i) => {
               return <OneRoom
-                      photo={'' || el.photo}
+                      photo={'' || el.imagePath}
                       key={`room-${i}`}
-                      name={el.value}
+                      name={el.name}
                       roomId={el._id}
-                      meeting={'Test meeting'}
-                      callBookForm={() => this.toggleBookForm(el._id, el.value)}
+                      meeting={'available'}
+                      callBookForm={() => this.toggleBookForm(el._id, el.name)}
                     />;
             })}
 

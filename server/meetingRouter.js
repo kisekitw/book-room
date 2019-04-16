@@ -10,17 +10,19 @@ const Meeting  = require('./models/meetingModel');
 const isAuthed = require('./passport/isUserAuthed');
 
 const meetingRouter = express.Router();
-
-meetingRouter.get('/', isAuthed, (req, res) => {
-    console.log('aaaaaaaaaaaaaaaaaaaaa');
+// meetingRouter.get('/', isAuthed, (req, res) => {
+meetingRouter.get('/', (req, res) => {
+    console.log('aaaaaaaaaaaaaaaaaaaaa', req.query.roomId);
     const isRoomMode = req.query.roomId !== 'undefined';
     let query;
     if(isRoomMode){
+      console.log('bbbbbbbbbbbbb', ObjectId(req.query.roomId));
       query = {
         room: ObjectId(req.query.roomId),
         startTime: { $gte: new Date() }
        };
     } else {
+      console.log('ccccccccccccccccccc');
       query = {
         attendees: ObjectId(req.user._id),
         startTime: { $gte: new Date() }
@@ -28,7 +30,7 @@ meetingRouter.get('/', isAuthed, (req, res) => {
     }
 
     Meeting.find(query)
-    .populate('room')
+    //.populate('room')
     .populate('hostId attendees', 'username')
     .sort('startTime')
     .lean()
@@ -37,11 +39,12 @@ meetingRouter.get('/', isAuthed, (req, res) => {
       if(!meetings) res.status(404).send('Meeting not found.');
       else {
 
-        meetings.map(el => {
-          el.isHost = req.user._id.toString() === el.hostId._id.toString();
-          el.status = el.attendees.filter(user => user._id.toString() === req.user._id.toString()).length > 0;
-          return el;
-        });
+        console.log('meetingsssssssssssss', meetings);
+        // meetings.map(el => {
+        //   el.isHost = req.user._id.toString() === el.hostId._id.toString();
+        //   el.status = el.attendees.filter(user => user._id.toString() === req.user._id.toString()).length > 0;
+        //   return el;
+        // });
 
         res.json(meetings);
       }
@@ -67,6 +70,9 @@ meetingRouter.post('/', isAuthed, (req, res) => {
       res.status(400).send('There have been validation errors:' + util.inspect(errors.array()));
       return;
     }
+
+    console.log('added...', req.body.room);
+
     let meeting = new Meeting();
         meeting.room = req.body.room;
         meeting.title = req.body.title;
@@ -74,7 +80,7 @@ meetingRouter.post('/', isAuthed, (req, res) => {
         meeting.startTime =  new Date(req.body.startT);
         meeting.endTime = new Date(req.body.endT);
         meeting.attendees = [req.user._id];
-
+        console.log('New Meeting......', meeting.room);
     meeting.save(err => {
       if(err) res.status(500).send(err);
       else res.status(201).json({ message: 'Meeting created'});

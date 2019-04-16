@@ -16,24 +16,32 @@ export default class FormDropdown extends Component {
   }
 
   componentDidMount = () => {
+    console.log('componentDidMounttttt');
     ddInstances.push(this);
   }
 
   componentWillUnmount = () => {
+    console.log('componentWillUnmount');
     ddInstances.splice(ddInstances.indexOf(this), 1);
   }
 
   open = (e) => {
     e.stopPropagation();
+    // console.log('open');
     this.setState({isOpened: !this.state.isOpened});
+    
     ddInstances.filter(dd => dd != this).forEach(dd => dd.close());
+    // console.log(this);
+    // console.log(ddInstances);
   }
 
   close = () => {
+    console.log('close');
     this.setState({isOpened: false});
   }
 
   assignValue = (id=0, val) => {
+    console.log('assignValue', val);
     if(val != this.props.value){
       this.props.onChange(id, val);
     }
@@ -41,6 +49,7 @@ export default class FormDropdown extends Component {
   }
 
   render() {
+    console.log('render');
     const { name, value, ddList, disabled } = this.props;
     const { isOpened } = this.state;
 
@@ -61,8 +70,8 @@ export default class FormDropdown extends Component {
             { ddList.map(el => (
                       <li
                         key={shortid.generate()}
-                        onClick={() => this.assignValue(el._id, el.value)}>
-                        <a>{el.value}</a>
+                        onClick={() => this.assignValue(el._id, el.name)}>
+                        <a>{el.name}</a>
                       </li>
             )) }
           </ul>

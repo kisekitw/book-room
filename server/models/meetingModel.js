@@ -1,10 +1,34 @@
 const mongoose = require('mongoose'),
       Schema = mongoose.Schema;
 
+
+
+      const roomSchema = new Schema({
+        value: String,
+      });
+
+
+// const meetingSchema = new Schema({
+//   room: {
+//     type: Schema.Types.ObjectId,
+//     ref: 'Room'
+//   },
+//   title: String,
+//   hostId: {
+//     type: Schema.Types.ObjectId,
+//     ref: 'User'
+//   },
+//   startTime: { type: Date },
+//   endTime: { type: Date },
+//   attendees: [{
+//     type: Schema.Types.ObjectId,
+//     ref: 'User'
+//   }]
+// });
+
 const meetingSchema = new Schema({
   room: {
-    type: Schema.Types.ObjectId,
-    ref: 'Room'
+    value: String
   },
   title: String,
   hostId: {
